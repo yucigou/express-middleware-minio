@@ -1,7 +1,6 @@
 require('dotenv').config()
 const formidable = require('formidable')
 const uuidv1 = require('uuid/v1')
-const logger = require('@pubsweet/logger')
 const minioClient = require('./minio-client.js')
 const utils = require('./utils')
 
@@ -79,7 +78,6 @@ const handleGet = async (req, next) => {
   try {
     stat = await minioClient.getFileStat(req.params.filename)
   } catch (error) {
-    logger.error('minio handleGet error: ', error)
     req.minio = { error }
     next()
     return
