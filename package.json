@@ -1,13 +1,13 @@
 {
   "name": "express-middleware-minio",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "An Express middleware that helps you store files in Minio.",
   "keywords": [
     "express",
     "middleware",
     "minio"
   ],
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ."
@@ -15,6 +15,7 @@
   "author": "Yuci Gou <yuci.gou@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@pubsweet/logger": "^0.2.12",
     "dotenv": "^6.0.0",
     "formidable": "^1.2.1",
     "minio": "^7.0.1",
