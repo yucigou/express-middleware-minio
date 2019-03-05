@@ -28,5 +28,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/yucigou/express-middleware-minio.git"
-  },
+  }
 }
