@@ -1,6 +1,6 @@
 {
   "name": "express-middleware-minio",
-  "version": "2.1.3",
+  "version": "2.2.0",
   "description": "An Express middleware that helps you store files in Minio.",
   "keywords": [
     "express",
@@ -9,8 +9,8 @@
   ],
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ."
+    "test": "jest --testPathIgnorePatterns config/test.js",
+    "lint": "eslint --fix ."
   },
   "author": "Yuci Gou <yuci.gou@gmail.com>",
   "license": "ISC",
@@ -31,6 +31,7 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "eslint-plugin-standard": "^4.0.0",
+    "jest": "^24.1.0"
   }
 }
