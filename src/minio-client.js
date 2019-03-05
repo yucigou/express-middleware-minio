@@ -1,9 +1,10 @@
 const Minio = require('minio')
-const logger = require('@pubsweet/logger')
+const config = require('config')
 
+const logger = (config && config.logger) || console
 const { MINIO_UPLOADS_FOLDER_NAME, MINIO_BUCKET } = process.env
 
-function sleep(ms) {
+function sleep (ms) {
   return new Promise(resolve => {
     setTimeout(resolve, ms)
   })
@@ -59,7 +60,7 @@ const MinioClientClass = (() => {
       port: Number(process.env.MINIO_PORT),
       useSSL: process.env.MINIO_SECURITY === 'true',
       accessKey: process.env.MINIO_ACCESS_KEY,
-      secretKey: process.env.MINIO_SECRET_KEY,
+      secretKey: process.env.MINIO_SECRET_KEY
     })
 
     await initBucket(minioClient)
@@ -67,18 +68,18 @@ const MinioClientClass = (() => {
   }
 
   return {
-    getInstance,
+    getInstance
   }
 })()
 
 module.exports = {
-  async uploadFile(filename, oriFilename, fileType, tempFilePath, callback) {
+  async uploadFile (filename, oriFilename, fileType, tempFilePath, callback) {
     const uploads = MINIO_UPLOADS_FOLDER_NAME
     const filePath = `${uploads}/${filename}`
 
     const metaData = {
       'content-type': fileType,
-      'file-name': oriFilename,
+      'file-name': oriFilename
     }
 
     const minioClient = await MinioClientClass.getInstance()
@@ -87,17 +88,17 @@ module.exports = {
       filePath,
       tempFilePath,
       metaData,
-      callback,
+      callback
     )
   },
 
-  async uploadFileSteam(filename, oriFilename, fileType, fileStream, callback) {
+  async uploadFileSteam (filename, oriFilename, fileType, fileStream, callback) {
     const uploads = MINIO_UPLOADS_FOLDER_NAME
     const filePath = `${uploads}/${filename}`
 
     const metaData = {
       'content-type': fileType,
-      'file-name': oriFilename,
+      'file-name': oriFilename
     }
 
     const minioClient = await MinioClientClass.getInstance()
@@ -106,11 +107,11 @@ module.exports = {
       filePath,
       fileStream,
       metaData,
-      callback,
+      callback
     )
   },
 
-  async listFiles(callback) {
+  async listFiles (callback) {
     const uploads = MINIO_UPLOADS_FOLDER_NAME
     const prefix = `${uploads}`
 
@@ -128,14 +129,14 @@ module.exports = {
     })
   },
 
-  async getFile(fileName, tmpFile, callback) {
+  async getFile (fileName, tmpFile, callback) {
     const uploads = MINIO_UPLOADS_FOLDER_NAME
     const objectName = `${uploads}/${fileName}`
     const minioClient = await MinioClientClass.getInstance()
     minioClient.fGetObject(MINIO_BUCKET, objectName, tmpFile, callback)
   },
 
-  getFileStat(filename) {
+  getFileStat (filename) {
     return new Promise(async (resolve, reject) => {
       const uploads = MINIO_UPLOADS_FOLDER_NAME
       const objectName = `${uploads}/${filename}`
@@ -149,12 +150,12 @@ module.exports = {
     })
   },
 
-  async deleteFile(fileName, callback) {
+  async deleteFile (fileName, callback) {
     const uploads = MINIO_UPLOADS_FOLDER_NAME
     const objectName = `${uploads}/${fileName}`
     const minioClient = await MinioClientClass.getInstance()
     minioClient.removeObject(MINIO_BUCKET, objectName, err => {
       callback(err)
     })
-  },
+  }
 }

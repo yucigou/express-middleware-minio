@@ -1,8 +1,12 @@
 require('dotenv').config()
 const formidable = require('formidable')
 const uuidv1 = require('uuid/v1')
+const config = require('config')
+
 const minioClient = require('./minio-client.js')
 const utils = require('./utils')
+
+const logger = (config && config.logger) || console
 
 const Ops = Object.freeze({ post: 1, list: 2, get: 3, delete: 4 })
 
@@ -58,7 +62,7 @@ const handlePost = (req, next, fields, files) => {
         req.minio = { post: { filename: `${filename}`, etag } }
       }
       next()
-    },
+    }
   )
 }
 
@@ -78,6 +82,7 @@ const handleGet = async (req, next) => {
   try {
     stat = await minioClient.getFileStat(req.params.filename)
   } catch (error) {
+    logger.error('minio handleGet error: ', error)
     req.minio = { error }
     next()
     return
@@ -95,8 +100,8 @@ const handleGet = async (req, next) => {
       req.minio = {
         get: {
           path: tmpFile,
-          originalName: fielname,
-        },
+          originalName: fielname
+        }
       }
     }
     next()
@@ -143,9 +148,9 @@ module.exports = {
   Ops,
   utils,
   minioClient,
-  middleware() {
+  middleware () {
     return options => (req, res, next) => {
       handleRequests(req, next, options)
     }
-  },
+  }
 }

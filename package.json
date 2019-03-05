@@ -1,6 +1,6 @@
 {
   "name": "express-middleware-minio",
-  "version": "2.0.4",
+  "version": "2.1.2",
   "description": "An Express middleware that helps you store files in Minio.",
   "keywords": [
     "express",
@@ -15,19 +15,22 @@
   "author": "Yuci Gou <yuci.gou@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "@pubsweet/logger": "^0.2.12",
+    "config": "^3.0.1",
     "dotenv": "^6.0.0",
     "formidable": "^1.2.1",
     "minio": "^7.0.1",
     "uuid": "^3.2.1"
   },
-  "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.13.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/yucigou/express-middleware-minio.git"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
   }
 }

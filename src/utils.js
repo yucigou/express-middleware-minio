@@ -1,8 +1,8 @@
 const fs = require('fs')
 const uuidv1 = require('uuid/v1')
 
-const temp_dir = '/tmp'
-const getTempPath = filename => `${temp_dir}/${filename}.${uuidv1()}`
+const tempDir = '/tmp'
+const getTempPath = filename => `${tempDir}/${filename}.${uuidv1()}`
 
 const removeFile = tmpFile => {
   fs.unlink(tmpFile, err => {
@@ -14,5 +14,5 @@ const removeFile = tmpFile => {
 
 module.exports = {
   getTempPath,
-  removeFile,
+  removeFile
 }
