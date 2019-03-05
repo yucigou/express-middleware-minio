@@ -9,7 +9,7 @@ describe('Utils', () => {
     expect(filepath).toMatch(regex)
   })
 
-  it('should remove a given file in the /tmp directory', async () => {
+  it('should remove a given file in the /tmp directory', () => {
     const filepath = '/tmp/my-express-middleware-minio-utils-test-file.txt'
 
     if (fs.existsSync(filepath)) {
