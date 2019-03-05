@@ -52,9 +52,9 @@ const minioMiddleware = expressMinio.middleware();
 app.post('/api/files', minioMiddleware({op: expressMinio.Ops.post}), (req, res) => {
   if (req.minio.error) {
     res.status(400).json({ error: req.minio.error })
+  } else {
+    res.send({ filename: req.minio.post.filename })
   }
-
-  res.send({ filename: req.minio.post.filename })
 })
 
 app.get('/api/files',
@@ -62,8 +62,9 @@ app.get('/api/files',
   (req, res) => {
     if (req.minio.error) {
       res.status(400).json({ error: req.minio.error })
+    } else {
+      res.send(req.minio.list)
     }
-    res.send(req.minio.list);
   }
 )
 
@@ -72,8 +73,14 @@ app.get('/api/files/:filename',
   (req, res) => {
     if (req.minio.error) {
       res.status(400).json({ error: req.minio.error })
+      return
     }
-    res.download(req.minio.get);
+    res.download(req.minio.get.path, req.minio.get.originalName, err => {
+      if (err) {
+        console.warn('Download failed: ', err)
+      }
+      expressMinio.utils.removeFile(req.minio.get.path)
+    })
   }
 )
 
@@ -82,8 +89,9 @@ app.delete('/api/files/:filename',
   (req, res) => {
     if (req.minio.error) {
       res.status(400).json({ error: req.minio.error })
+    } else {
+      res.send(req.minio.delete)
     }
-    res.send(req.minio.delete);
   }
 )
 ```
