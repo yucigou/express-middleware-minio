@@ -13,6 +13,10 @@ The Minio middleware also allows you to list all files stored inside the predefi
 ```shell
 npm i express-middleware-minio
 ```
+Or
+```shell
+yarn add express-middleware-minio
+```
 
 ## Second, you need to add .env to get it up running, e.g.:
 
