@@ -97,7 +97,7 @@ app.delete('/api/files/:filename',
 ```
 
 ## Configuration
-By the default, console is used for logging. You can override the logger with Node-config.
+By default, console is used for logging. You can override the logger with Node-config.
 
 Here is an example config/default.js:
 
