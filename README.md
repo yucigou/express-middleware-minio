@@ -35,19 +35,17 @@ Four operations are provided:
 
 You can use them the following way:
 ```javascript
-const rfr = require('rfr')
-const minioClient = rfr('server/modules/pubsweet-component-minio')
-console.log(minioClient.Ops.post)
+const expressMinio = require('express-middleware-minio')
+console.log(expressMinio.Ops.post)
 ```
 
 You can find below an example.
 
 ```javascript
-const rfr = require('rfr')
-const minioClient = rfr('server/modules/pubsweet-component-minio')
-const minioMiddleware = minioClient.middleware();
+const expressMinio = require('express-middleware-minio')
+const minioMiddleware = expressMinio.middleware();
 
-app.post('/api/files', minioMiddleware({op: minioClient.Ops.post}), (req, res) => {
+app.post('/api/files', minioMiddleware({op: expressMinio.Ops.post}), (req, res) => {
 	if (req.minio.error) {
 		res.status(400).json({ error: req.minio.error })
 	}
@@ -56,7 +54,7 @@ app.post('/api/files', minioMiddleware({op: minioClient.Ops.post}), (req, res) =
 })
 
 app.get('/api/files',
-	minioMiddleware({op: minioClient.Ops.list}),
+	minioMiddleware({op: expressMinio.Ops.list}),
 	(req, res) => {
 		if (req.minio.error) {
 			res.status(400).json({ error: req.minio.error })
@@ -66,7 +64,7 @@ app.get('/api/files',
 )
 
 app.get('/api/files/:filename',
-	minioMiddleware({op: minioClient.Ops.get}),
+	minioMiddleware({op: expressMinio.Ops.get}),
 	(req, res) => {
 		if (req.minio.error) {
 			res.status(400).json({ error: req.minio.error })
@@ -76,7 +74,7 @@ app.get('/api/files/:filename',
 )
 
 app.delete('/api/files/:filename',
-	minioMiddleware({op: minioClient.Ops.delete}),
+	minioMiddleware({op: expressMinio.Ops.delete}),
 	(req, res) => {
 		if (req.minio.error) {
 			res.status(400).json({ error: req.minio.error })
