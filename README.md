@@ -46,40 +46,40 @@ const expressMinio = require('express-middleware-minio')
 const minioMiddleware = expressMinio.middleware();
 
 app.post('/api/files', minioMiddleware({op: expressMinio.Ops.post}), (req, res) => {
-	if (req.minio.error) {
-		res.status(400).json({ error: req.minio.error })
-	}
+  if (req.minio.error) {
+    res.status(400).json({ error: req.minio.error })
+  }
 
-	res.send({ filename: req.minio.post.filename })
+  res.send({ filename: req.minio.post.filename })
 })
 
 app.get('/api/files',
-	minioMiddleware({op: expressMinio.Ops.list}),
-	(req, res) => {
-		if (req.minio.error) {
-			res.status(400).json({ error: req.minio.error })
-		}
-		res.send(req.minio.list);
-	}
+  minioMiddleware({op: expressMinio.Ops.list}),
+  (req, res) => {
+    if (req.minio.error) {
+      res.status(400).json({ error: req.minio.error })
+    }
+    res.send(req.minio.list);
+  }
 )
 
 app.get('/api/files/:filename',
-	minioMiddleware({op: expressMinio.Ops.get}),
-	(req, res) => {
-		if (req.minio.error) {
-			res.status(400).json({ error: req.minio.error })
-		}
-		res.download(req.minio.get);
-	}
+  minioMiddleware({op: expressMinio.Ops.get}),
+  (req, res) => {
+    if (req.minio.error) {
+      res.status(400).json({ error: req.minio.error })
+    }
+    res.download(req.minio.get);
+  }
 )
 
 app.delete('/api/files/:filename',
-	minioMiddleware({op: expressMinio.Ops.delete}),
-	(req, res) => {
-		if (req.minio.error) {
-			res.status(400).json({ error: req.minio.error })
-		}
-		res.send(req.minio.delete);
-	}
+  minioMiddleware({op: expressMinio.Ops.delete}),
+  (req, res) => {
+    if (req.minio.error) {
+      res.status(400).json({ error: req.minio.error })
+    }
+    res.send(req.minio.delete);
+  }
 )
 ```
