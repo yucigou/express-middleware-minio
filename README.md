@@ -69,7 +69,7 @@ app.get('/api/files',
   }
 )
 
-app.get('/api/files/:filename',
+app.get('/api/download/:filename',
   minioMiddleware({op: expressMinio.Ops.get}),
   (req, res) => {
     if (req.minio.error) {
@@ -85,6 +85,19 @@ app.get('/api/files/:filename',
   }
 )
 
+app.get(
+  `/api/files/:filename`,
+  minioMiddleware({ op: expressMinio.Ops.getStream }),
+  (req, res) => {
+    if (req.minio.error) {
+      res.status(400).json({ error: req.minio.error })
+      return
+    }
+
+    req.minio.get.stream.pipe(res);
+  },
+)
+  
 app.delete('/api/files/:filename',
   minioMiddleware({op: expressMinio.Ops.delete}),
   (req, res) => {
@@ -98,7 +111,7 @@ app.delete('/api/files/:filename',
 ```
 
 ## Configuration
-### logger
+### logger (optional)
 By default, console is used for logging. You can override the logger with Node-config.
 
 Here is an example config/default.js:
@@ -120,7 +133,7 @@ module.exports = {
 }
 
 ```
-### Temporary directory
+### Temporary directory (optional)
 
 Currently when retrieving a file from Minio via operation get (see above), we download and save it in the local filesystem, and then return it to the client.
 
@@ -133,3 +146,5 @@ module.exports = {
   minioTmpDir: '/tmp'
 }
 ```
+
+**Note**: the recommended way is to use operation getStream, which would pipe the stream of the requested file to the client. If you use getStream way, you don't need to set up the temporary directory.
