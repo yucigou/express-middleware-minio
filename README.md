@@ -127,6 +127,8 @@ This is the directory used to hold the file in the local filesystem. Be default,
 
 Here is an example config/default.js:
 
+```javascript
 module.exports = {
   minioTmpDir: '/tmp'
 }
+```
