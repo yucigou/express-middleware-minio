@@ -97,6 +97,7 @@ app.delete('/api/files/:filename',
 ```
 
 ## Configuration
+### logger
 By default, console is used for logging. You can override the logger with Node-config.
 
 Here is an example config/default.js:
@@ -118,3 +119,14 @@ module.exports = {
 }
 
 ```
+### Temporary directory
+
+Currently when retrieving a file from Minio, we download and save it in the local filesystem, and then return it to the client.
+
+This is the directory used to hold the file in the local filesystem. Be default, it is /tmp. You can change it to a different directory if necessary.
+
+Here is an example config/default.js:
+
+module.exports = {
+  minioTmpDir: '/tmp'
+}

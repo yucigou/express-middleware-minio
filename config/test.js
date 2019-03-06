@@ -1,3 +1,4 @@
 module.exports = {
-	logger: console,
+  logger: console,
+  minioTmpDir: '/tmp'
 }
