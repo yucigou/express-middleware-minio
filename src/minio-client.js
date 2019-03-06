@@ -136,6 +136,13 @@ module.exports = {
     minioClient.fGetObject(MINIO_BUCKET, objectName, tmpFile, callback)
   },
 
+  async getFileStream (fileName, callback) {
+    const uploads = MINIO_UPLOADS_FOLDER_NAME
+    const objectName = `${uploads}/${fileName}`
+    const minioClient = await MinioClientClass.getInstance()
+    minioClient.getObject(MINIO_BUCKET, objectName, callback)
+  },
+
   getFileStat (filename) {
     return new Promise(async (resolve, reject) => {
       const uploads = MINIO_UPLOADS_FOLDER_NAME

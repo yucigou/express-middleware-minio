@@ -8,7 +8,7 @@ const utils = require('./utils')
 
 const logger = (config && config.logger) || console
 
-const Ops = Object.freeze({ post: 1, list: 2, get: 3, delete: 4 })
+const Ops = Object.freeze({ post: 1, list: 2, get: 3, getStream: 4, delete: 5 })
 
 const extractFileExtension = filename => {
   if (filename) {
@@ -108,6 +108,36 @@ const handleGet = async (req, next) => {
   })
 }
 
+const handleGetStream = async (req, next) => {
+  let stat
+  try {
+    stat = await minioClient.getFileStat(req.params.filename)
+  } catch (error) {
+    logger.error('minio handleGetSteam error: ', error)
+    req.minio = { error }
+    next()
+    return
+  }
+
+  minioClient.getFileStream(req.params.filename, (error, stream) => {
+    if (error) {
+      req.minio = { error }
+    } else {
+      let fielname = req.params.filename
+      if (stat.metaData && stat.metaData['file-name']) {
+        fielname = stat.metaData['file-name']
+      }
+      req.minio = {
+        get: {
+          stream,
+          originalName: fielname
+        }
+      }
+    }
+    next()
+  })
+}
+
 const handleDelete = (req, next) => {
   minioClient.deleteFile(req.params.filename, error => {
     if (error) {
@@ -139,6 +169,8 @@ const handleRequests = (req, next, options) => {
     handleList(req, next)
   } else if (options.op === Ops.get) {
     handleGet(req, next)
+  } else if (options.op === Ops.getStream) {
+    handleGetStream(req, next)
   } else if (options.op === Ops.delete) {
     handleDelete(req, next)
   }

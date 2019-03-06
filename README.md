@@ -34,6 +34,7 @@ MINIO_UPLOADS_FOLDER_NAME=uploads
 Four operations are provided:
 * post
 * get
+* getStream
 * delete
 * list
 
@@ -121,7 +122,7 @@ module.exports = {
 ```
 ### Temporary directory
 
-Currently when retrieving a file from Minio, we download and save it in the local filesystem, and then return it to the client.
+Currently when retrieving a file from Minio via operation get (see above), we download and save it in the local filesystem, and then return it to the client.
 
 This is the directory used to hold the file in the local filesystem. Be default, it is /tmp. You can change it to a different directory if necessary.
 
