@@ -33,7 +33,7 @@ MINIO_UPLOADS_FOLDER_NAME=uploads
 ## Then you can use the Minio middleware in your Express application:
 Four operations are provided:
 * post
-* get
+* get (deprecated)
 * getStream
 * delete
 * list
@@ -50,6 +50,7 @@ You can find below an example.
 const expressMinio = require('express-middleware-minio')
 const minioMiddleware = expressMinio.middleware();
 
+// Upload a file
 app.post('/api/files', minioMiddleware({op: expressMinio.Ops.post}), (req, res) => {
   if (req.minio.error) {
     res.status(400).json({ error: req.minio.error })
@@ -58,6 +59,7 @@ app.post('/api/files', minioMiddleware({op: expressMinio.Ops.post}), (req, res) 
   }
 })
 
+// List all files
 app.get('/api/files',
   minioMiddleware({op: expressMinio.Ops.list}),
   (req, res) => {
@@ -69,22 +71,7 @@ app.get('/api/files',
   }
 )
 
-app.get('/api/download/:filename',
-  minioMiddleware({op: expressMinio.Ops.get}),
-  (req, res) => {
-    if (req.minio.error) {
-      res.status(400).json({ error: req.minio.error })
-      return
-    }
-    res.download(req.minio.get.path, req.minio.get.originalName, err => {
-      if (err) {
-        console.warn('Download failed: ', err)
-      }
-      expressMinio.utils.removeFile(req.minio.get.path)
-    })
-  }
-)
-
+// Download a file
 app.get(
   `/api/files/:filename`,
   minioMiddleware({ op: expressMinio.Ops.getStream }),
@@ -94,10 +81,12 @@ app.get(
       return
     }
 
+    res.attachment(req.minio.get.originalName)
     req.minio.get.stream.pipe(res);
   },
 )
-  
+
+// Delete a file
 app.delete('/api/files/:filename',
   minioMiddleware({op: expressMinio.Ops.delete}),
   (req, res) => {
@@ -133,7 +122,8 @@ module.exports = {
 }
 
 ```
-### Temporary directory (optional)
+
+### Temporary directory (optional and deprecated)
 
 Currently when retrieving a file from Minio via operation get (see above), we download and save it in the local filesystem, and then return it to the client.
 
