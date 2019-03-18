@@ -130,7 +130,8 @@ const handleGetStream = async (req, next) => {
       req.minio = {
         get: {
           stream,
-          originalName: fielname
+          originalName: fielname,
+          contentLength: stream.headers['content-length']
         }
       }
     }
