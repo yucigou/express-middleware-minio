@@ -79,7 +79,7 @@ module.exports = {
 
     const metaData = {
       'content-type': fileType,
-      'file-name': oriFilename
+      'file-name': oriFilename.replace(/\s+/gi, ' ')
     }
 
     const minioClient = await MinioClientClass.getInstance()
@@ -98,7 +98,7 @@ module.exports = {
 
     const metaData = {
       'content-type': fileType,
-      'file-name': oriFilename
+      'file-name': oriFilename.replace(/\s+/gi, ' ')
     }
 
     const minioClient = await MinioClientClass.getInstance()
