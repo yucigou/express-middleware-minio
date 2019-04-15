@@ -78,8 +78,8 @@ module.exports = {
     const filePath = `${uploads}/${filename}`
 
     const metaData = {
-      'content-type': fileType,
-      'file-name': oriFilename.replace(/\s+/gi, ' ')
+      'content-type': fileType
+      /*'file-name': oriFilename.replace(/\s+/gi, ' ')*/
     }
 
     const minioClient = await MinioClientClass.getInstance()
@@ -97,8 +97,8 @@ module.exports = {
     const filePath = `${uploads}/${filename}`
 
     const metaData = {
-      'content-type': fileType,
-      'file-name': oriFilename.replace(/\s+/gi, ' ')
+      'content-type': fileType
+      /*'file-name': oriFilename.replace(/\s+/gi, ' ')*/
     }
 
     const minioClient = await MinioClientClass.getInstance()
