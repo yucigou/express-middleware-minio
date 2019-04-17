@@ -76,10 +76,11 @@ module.exports = {
   async uploadFile (filename, oriFilename, fileType, tempFilePath, callback) {
     const uploads = MINIO_UPLOADS_FOLDER_NAME
     const filePath = `${uploads}/${filename}`
+    const encodedOriFileName = Buffer.from(oriFilename).toString('base64')
 
     const metaData = {
-      'content-type': fileType
-      /*'file-name': oriFilename.replace(/\s+/gi, ' ')*/
+      'content-type': fileType,
+      'file-name': encodedOriFileName
     }
 
     const minioClient = await MinioClientClass.getInstance()
@@ -95,10 +96,11 @@ module.exports = {
   async uploadFileSteam (filename, oriFilename, fileType, fileStream, callback) {
     const uploads = MINIO_UPLOADS_FOLDER_NAME
     const filePath = `${uploads}/${filename}`
+    const encodedOriFileName = Buffer.from(oriFilename).toString('base64')
 
     const metaData = {
-      'content-type': fileType
-      /*'file-name': oriFilename.replace(/\s+/gi, ' ')*/
+      'content-type': fileType,
+      'file-name': encodedOriFileName
     }
 
     const minioClient = await MinioClientClass.getInstance()
