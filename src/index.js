@@ -93,14 +93,15 @@ const handleGet = async (req, next) => {
     if (error) {
       req.minio = { error }
     } else {
-      let fielname = req.params.filename
+      let filename = req.params.filename
       if (stat.metaData && stat.metaData['file-name']) {
-        fielname = stat.metaData['file-name']
+        filename = stat.metaData['file-name']
+        filename = Buffer.from(filename, 'base64').toString('utf8')
       }
       req.minio = {
         get: {
           path: tmpFile,
-          originalName: fielname
+          originalName: filename
         }
       }
     }
@@ -123,14 +124,15 @@ const handleGetStream = async (req, next) => {
     if (error) {
       req.minio = { error }
     } else {
-      let fielname = req.params.filename
+      let filename = req.params.filename
       if (stat.metaData && stat.metaData['file-name']) {
-        fielname = stat.metaData['file-name']
+        filename = stat.metaData['file-name']
+        filename = Buffer.from(filename, 'base64').toString('utf8')
       }
       req.minio = {
         get: {
           stream,
-          originalName: fielname,
+          originalName: filename,
           contentLength: stream.headers['content-length']
         }
       }
