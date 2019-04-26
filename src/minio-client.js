@@ -93,7 +93,7 @@ module.exports = {
     )
   },
 
-  async uploadFileSteam (filename, oriFilename, fileType, fileStream, callback) {
+  async uploadFileSteam (filename, oriFilename, fileType, fileStream) {
     const uploads = MINIO_UPLOADS_FOLDER_NAME
     const filePath = `${uploads}/${filename}`
     const encodedOriFileName = Buffer.from(oriFilename).toString('base64')
@@ -104,12 +104,11 @@ module.exports = {
     }
 
     const minioClient = await MinioClientClass.getInstance()
-    minioClient.putObject(
+    return minioClient.putObject(
       MINIO_BUCKET,
       filePath,
       fileStream,
-      metaData,
-      callback
+      metaData
     )
   },
 
