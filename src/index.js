@@ -41,6 +41,16 @@ const validityCheck = (req, options) => {
   return true
 }
 
+const getFileMetaData = (stat) => {
+  if (stat && stat.metaData) {
+    return {
+      filename: Buffer.from(stat.metaData['file-name'], 'base64').toString('utf8'),
+      contentType: stat.metaData['content-type']
+    }
+  }
+  return {}
+}
+
 const handlePost = (req, next, fields, files) => {
   let filename = uuidv1()
   if (files.file && files.file.name) {
@@ -93,15 +103,16 @@ const handleGet = async (req, next) => {
     if (error) {
       req.minio = { error }
     } else {
-      let filename = req.params.filename
-      if (stat.metaData && stat.metaData['file-name']) {
-        filename = stat.metaData['file-name']
-        filename = Buffer.from(filename, 'base64').toString('utf8')
+      let { filename, contentType } = getFileMetaData(stat)
+      if (!filename) {
+        filename = req.params.filename
       }
       req.minio = {
         get: {
           path: tmpFile,
-          originalName: filename
+          originalName: filename,
+          contentType,
+          contentLength: stat.size
         }
       }
     }
@@ -124,16 +135,16 @@ const handleGetStream = async (req, next) => {
     if (error) {
       req.minio = { error }
     } else {
-      let filename = req.params.filename
-      if (stat.metaData && stat.metaData['file-name']) {
-        filename = stat.metaData['file-name']
-        filename = Buffer.from(filename, 'base64').toString('utf8')
+      let { filename, contentType } = getFileMetaData(stat)
+      if (!filename) {
+        filename = req.params.filename
       }
       req.minio = {
         get: {
           stream,
           originalName: filename,
-          contentLength: stream.headers['content-length']
+          contentLength: stream.headers['content-length'],
+          contentType
         }
       }
     }
