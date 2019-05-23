@@ -28,6 +28,7 @@ MINIO_PORT=9000
 MINIO_SECURITY=false
 MINIO_BUCKET=manuscripts
 MINIO_UPLOADS_FOLDER_NAME=uploads
+MINIO_REGION=eu-west-2 (optional)
 ```
 
 ## Then you can use the Minio middleware in your Express application:

@@ -36,7 +36,7 @@ const MinioClientClass = (() => {
     if (!bucketExists) {
       bucketCreationInProcess = true
       try {
-        await minioClient.makeBucket(MINIO_BUCKET, 'eu-west-2')
+        await minioClient.makeBucket(MINIO_BUCKET, process.env.MINIO_REGION || 'eu-west-2')
       } catch (err) {
         bucketCreationInProcess = false
         logger.error('initBucket - makeBucket: ', err)
@@ -60,7 +60,8 @@ const MinioClientClass = (() => {
       port: Number(process.env.MINIO_PORT),
       useSSL: process.env.MINIO_SECURITY === 'true',
       accessKey: process.env.MINIO_ACCESS_KEY,
-      secretKey: process.env.MINIO_SECRET_KEY
+      secretKey: process.env.MINIO_SECRET_KEY,
+      region: process.env.MINIO_REGION || 'eu-west-2'
     })
 
     await initBucket(minioClient)
