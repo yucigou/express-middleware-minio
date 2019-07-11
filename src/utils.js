@@ -15,11 +15,11 @@ const removeFile = tmpFile => {
     throw new Error(errMsg)
   }
 
-  fs.unlink(tmpFile, err => {
-    if (err) {
-      logger.warn(`Error deleting file ${tmpFile}: `, err)
-    }
-  })
+  try {
+    fs.unlinkSync(tmpFile)
+  } catch (err) {
+    logger.warn(`${tmpFile} not deleted: ${err}`)
+  }
 }
 
 module.exports = {
