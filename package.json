@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "config": "^3.0.1",
-    "dotenv": "^6.0.0",
+    "dotenv": "^6.2.0",
     "formidable": "^1.2.1",
     "minio": "^7.0.1",
     "uuid": "^3.2.1"

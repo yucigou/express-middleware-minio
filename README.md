@@ -13,7 +13,9 @@ The Minio middleware also allows you to list all files stored inside the predefi
 ```shell
 npm i express-middleware-minio
 ```
+
 Or
+
 ```shell
 yarn add express-middleware-minio
 ```
@@ -32,45 +34,53 @@ MINIO_REGION=eu-west-2 (optional)
 ```
 
 ## Then you can use the Minio middleware in your Express application:
+
 Four operations are provided:
-* post
-* get (deprecated)
-* getStream
-* delete
-* list
+
+- post
+- get (deprecated)
+- getStream
+- delete
+- list
 
 You can use them the following way:
+
 ```javascript
-const expressMinio = require('express-middleware-minio')
-console.log(expressMinio.Ops.post)
+const expressMinio = require("express-middleware-minio");
+console.log(expressMinio.Ops.post);
 ```
 
 You can find below an example.
 
 ```javascript
-const expressMinio = require('express-middleware-minio')
+const expressMinio = require("express-middleware-minio");
 const minioMiddleware = expressMinio.middleware();
 
 // Upload a file
-app.post('/api/files', minioMiddleware({op: expressMinio.Ops.post}), (req, res) => {
-  if (req.minio.error) {
-    res.status(400).json({ error: req.minio.error })
-  } else {
-    res.send({ filename: req.minio.post.filename })
-  }
-})
-
-// List all files
-app.get('/api/files',
-  minioMiddleware({op: expressMinio.Ops.list}),
+app.post(
+  "/api/files",
+  minioMiddleware({ op: expressMinio.Ops.post }),
   (req, res) => {
     if (req.minio.error) {
-      res.status(400).json({ error: req.minio.error })
+      res.status(400).json({ error: req.minio.error });
     } else {
-      res.send(req.minio.list)
+      res.send({ filename: req.minio.post.filename });
     }
   }
-)
+);
+
+// List all files
+app.get(
+  "/api/files",
+  minioMiddleware({ op: expressMinio.Ops.list }),
+  (req, res) => {
+    if (req.minio.error) {
+      res.status(400).json({ error: req.minio.error });
+    } else {
+      res.send(req.minio.list);
+    }
+  }
+);
 
 // Download a file
 app.get(
@@ -78,64 +88,70 @@ app.get(
   minioMiddleware({ op: expressMinio.Ops.getStream }),
   (req, res) => {
     if (req.minio.error) {
-      res.status(400).json({ error: req.minio.error })
-      return
+      res.status(400).json({ error: req.minio.error });
+      return;
     }
 
-    res.attachment(req.minio.get.originalName)
+    res.attachment(req.minio.get.originalName);
     req.minio.get.stream.pipe(res);
-  },
-)
+  }
+);
 
 // Delete a file
-app.delete('/api/files/:filename',
-  minioMiddleware({op: expressMinio.Ops.delete}),
+app.delete(
+  "/api/files/:filename",
+  minioMiddleware({ op: expressMinio.Ops.delete }),
   (req, res) => {
     if (req.minio.error) {
-      res.status(400).json({ error: req.minio.error })
+      res.status(400).json({ error: req.minio.error });
     } else {
-      res.send(req.minio.delete)
+      res.send(req.minio.delete);
     }
   }
-)
+);
 ```
 
 ## Configuration
+
 ### logger (optional)
+
 By default, console is used for logging. You can override the logger with Node-config.
 
 Here is an example config/default.js:
 
 ```javascript
-const logger = require('winston')
-require('winston-daily-rotate-file')
+const logger = require("winston");
+require("winston-daily-rotate-file");
 
 logger.add(logger.transports.DailyRotateFile, {
-  dirname: './logs',
-  filename: 'xpub-epmc.log',
-  datePattern: 'YYYY-MM-DD',
+  dirname: "./logs",
+  filename: "xpub-epmc.log",
+  datePattern: "YYYY-MM-DD",
   zippedArchive: true,
-  maxFiles: '30d',
-})
+  maxFiles: "30d"
+});
 
 module.exports = {
-  logger,
-}
-
+  logger
+};
 ```
+
+### Test
+
+To run the tests against S3, you will need to spin up an Minio S3 service, or against an existing one.
 
 ### Temporary directory (optional and deprecated)
 
 Currently when retrieving a file from Minio via operation get (see above), we download and save it in the local filesystem, and then return it to the client.
 
-This is the directory used to hold the file in the local filesystem. Be default, it is /tmp. You can change it to a different directory if necessary.
+This is the directory used to hold the file in the local filesystem. By default, it is /tmp. You can change it to a different directory if necessary.
 
 Here is an example config/default.js:
 
 ```javascript
 module.exports = {
-  minioTmpDir: '/tmp'
-}
+  minioTmpDir: "/tmp"
+};
 ```
 
 **Note**: the recommended way is to use operation getStream, which would pipe the stream of the requested file to the client. If you use getStream way, you don't need to set up the temporary directory.

@@ -36,7 +36,10 @@ const MinioClientClass = (() => {
     if (!bucketExists) {
       bucketCreationInProcess = true
       try {
-        await minioClient.makeBucket(MINIO_BUCKET, process.env.MINIO_REGION || 'eu-west-2')
+        await minioClient.makeBucket(
+          MINIO_BUCKET,
+          process.env.MINIO_REGION || 'eu-west-2'
+        )
       } catch (err) {
         bucketCreationInProcess = false
         logger.error('initBucket - makeBucket: ', err)
@@ -54,7 +57,6 @@ const MinioClientClass = (() => {
     if (minioClient && bucketExists) {
       return minioClient
     }
-
     minioClient = new Minio.Client({
       endPoint: process.env.MINIO_ENDPOINT,
       port: Number(process.env.MINIO_PORT),
@@ -105,12 +107,7 @@ module.exports = {
     }
 
     const minioClient = await MinioClientClass.getInstance()
-    return minioClient.putObject(
-      MINIO_BUCKET,
-      filePath,
-      fileStream,
-      metaData
-    )
+    return minioClient.putObject(MINIO_BUCKET, filePath, fileStream, metaData)
   },
 
   async listFiles (callback) {
