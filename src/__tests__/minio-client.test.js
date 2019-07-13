@@ -4,6 +4,7 @@ const config = require('config')
 const minioClient = require('../minio-client')
 
 const tempDir = (config && config.minioTmpDir) || '/tmp'
+const { MINIO_UPLOADS_FOLDER_NAME, MINIO_BUCKET } = process.env
 
 describe('MinioClient', () => {
   const originalFileName = 'original-file-name'
@@ -46,6 +47,20 @@ describe('MinioClient', () => {
     })
   })
 
+  it('lists files with certain prefix in the S3 bucket', done => {
+    expect.hasAssertions()
+    minioClient.listFiles((err, list) => {
+      expect(err).toBe(null)
+      expect(list).not.toBe(null)
+      const fileFound = list.filter(
+        file => file.name === `${MINIO_UPLOADS_FOLDER_NAME}/${newFileName}`
+      )
+      expect(fileFound).not.toBe(null)
+      expect(fileFound.length).toBe(1)
+      done()
+    })
+  })
+
   it('downloads a file as a stream', done => {
     let size = 0
     minioClient.getFileStream(newFileName, (err, dataStream) => {
@@ -74,7 +89,6 @@ describe('MinioClient', () => {
       fileStream
     )
     expect(ret).not.toBe(null)
-    console.log('ret: ', ret)
   })
 
   it('gets the stats of a file', async () => {
@@ -83,10 +97,27 @@ describe('MinioClient', () => {
     expect(stats.metaData['content-type']).toBe(fileType)
   })
 
+  it('rejects promise when getting the stats of a non-existing file', async done => {
+    try {
+      await minioClient.getFileStat('there-is-no-such-a-file')
+    } catch (err) {
+      expect(err).not.toBe(null)
+      done()
+    }
+  })
+
   it('delets a file', done => {
     minioClient.deleteFile(newFileName, err => {
       expect(err).toBe(null)
       done()
     })
+  })
+})
+
+afterAll(async done => {
+  const coreClient = await minioClient.core.getInstance()
+  coreClient.removeBucket(MINIO_BUCKET, err => {
+    console.log(err)
+    done()
   })
 })

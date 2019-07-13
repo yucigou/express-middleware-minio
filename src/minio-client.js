@@ -76,6 +76,7 @@ const MinioClientClass = (() => {
 })()
 
 module.exports = {
+  core: MinioClientClass,
   async uploadFile (filename, oriFilename, fileType, tempFilePath, callback) {
     const uploads = MINIO_UPLOADS_FOLDER_NAME
     const filePath = `${uploads}/${filename}`
