@@ -8,6 +8,7 @@ const tempDir = (config && config.minioTmpDir) || '/tmp'
 describe('MinioClient', () => {
   const newFileName = 'new-file-name'
   const tmpFilePath = `${tempDir}/my-express-middleware-minio-utils-test-file.txt`
+  const fileType = 'text/plain'
 
   it('ensures a given bucket is created', done => {
     expect.hasAssertions()
@@ -24,7 +25,7 @@ describe('MinioClient', () => {
     minioClient.uploadFile(
       newFileName,
       'original-file-name',
-      'text/plain',
+      fileType,
       tmpFilePath,
       (err, etag) => {
         expect(err).toBe(null)
@@ -41,5 +42,11 @@ describe('MinioClient', () => {
       fs.unlinkSync(tmpFilePath)
       done()
     })
+  })
+
+  it('gets the stats of a file', async () => {
+    const stats = await minioClient.getFileStat(newFileName)
+    expect(stats).not.toBe(null)
+    expect(stats.metaData['content-type']).toBe(fileType)
   })
 })

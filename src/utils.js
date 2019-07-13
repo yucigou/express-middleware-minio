@@ -18,7 +18,7 @@ const removeFile = tmpFile => {
   try {
     fs.unlinkSync(tmpFile)
   } catch (err) {
-    logger.warn(`${tmpFile} not deleted: ${err}`)
+    logger.info(`${tmpFile} not deleted: ${err}`)
   }
 }
 
