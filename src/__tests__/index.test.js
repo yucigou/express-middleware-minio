@@ -42,7 +42,6 @@ describe('MinioMiddleware', () => {
 
     request(app)
       .post('/api/upload')
-      .field('name', 'Logo')
       .attach('file', tmpFilePath)
       .expect(200, res => {
         fs.unlinkSync(tmpFilePath)
