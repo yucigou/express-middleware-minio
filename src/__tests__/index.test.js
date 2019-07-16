@@ -49,6 +49,79 @@ describe('MinioMiddleware', () => {
       })
   })
 
+  it('lists files', done => {
+    const app = express()
+    app.get(
+      '/api/files',
+      minioMiddleware({ op: expressMinio.Ops.list }),
+      (req, res) => {
+        if (req.minio.error) {
+          res.status(400).json({ error: req.minio.error })
+        } else {
+          res.send(req.minio.list)
+        }
+      }
+    )
+    request(app)
+      .get('/api/files')
+      .expect(200)
+      .then(response => {
+        expect(response.body).not.toBe(null)
+        expect(response.body[0]).not.toBe(null)
+        expect(response.body[0].size).toBe(9)
+        done()
+      })
+  })
+
+  it('gets a file', done => {
+    const app = express()
+    app.get(
+      '/api/files/:filename',
+      minioMiddleware({ op: expressMinio.Ops.get }),
+      async (req, res) => {
+        if (req.minio.error) {
+          res.status(400).json({ error: req.minio.error })
+          return
+        }
+
+        req.minio.get.contentLength &&
+          res.set('Content-Length', req.minio.get.contentLength)
+
+        res.download(req.minio.get.path)
+      }
+    )
+    request(app)
+      .get(`/api/files/${filenameInS3}`)
+      .expect(200)
+      .then(response => {
+        expect(response.body).not.toBe(null)
+        expect(response.body.toString()).toBe(testData)
+        done()
+      })
+  })
+
+  it('gets a file as stream', done => {
+    const app = express()
+    app.get(
+      '/api/files/:filename',
+      minioMiddleware({ op: expressMinio.Ops.getStream }),
+      async (req, res) => {
+        if (req.minio.error) {
+          res.status(400).json({ error: req.minio.error })
+          return
+        }
+
+        req.minio.get.contentLength &&
+          res.set('Content-Length', req.minio.get.contentLength)
+
+        req.minio.get.stream.pipe(res)
+      }
+    )
+    request(app)
+      .get(`/api/files/${filenameInS3}`)
+      .expect(200, done)
+  })
+
   it('deletes a file', done => {
     const app = express()
     app.delete(
