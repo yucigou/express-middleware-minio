@@ -9,7 +9,7 @@ const expressMinio = require('../index')
 const minioMiddleware = expressMinio.middleware()
 
 const tempDir = (config && config.minioTmpDir) || '/tmp'
-const tmpFilePath = `${tempDir}/my-express-middleware-minio-utils-test-file.txt`
+const tmpFilePath = `${tempDir}/my-express-middleware-minio-index-test-file.txt`
 const testData = 'Test data'
 
 describe('MinioMiddleware', () => {
@@ -69,6 +69,64 @@ describe('MinioMiddleware', () => {
         expect(response.body).not.toBe(null)
         expect(response.body[0]).not.toBe(null)
         expect(response.body[0].size).toBe(9)
+        done()
+      })
+  })
+
+  it('returns error if a file to get does not exist', done => {
+    const app = express()
+    app.get(
+      '/api/files/:filename',
+      minioMiddleware({ op: expressMinio.Ops.get }),
+      async (req, res) => {
+        if (req.minio.error) {
+          res.status(400).json({ error: req.minio.error })
+          return
+        }
+
+        req.minio.get.contentLength &&
+          res.set('Content-Length', req.minio.get.contentLength)
+
+        res.download(req.minio.get.path)
+      }
+    )
+    request(app)
+      .get(`/api/files/non-existant-file`)
+      .expect(400)
+      .then(response => {
+        console.log(response.body)
+        expect(response.body).not.toBe(null)
+        expect(response.body.error).not.toBe(null)
+        expect(response.body.error.code).toBe('NotFound')
+        done()
+      })
+  })
+
+  it('returns error if a file to get as stream does not exist', done => {
+    const app = express()
+    app.get(
+      '/api/files/:filename',
+      minioMiddleware({ op: expressMinio.Ops.getStream }),
+      async (req, res) => {
+        if (req.minio.error) {
+          res.status(400).json({ error: req.minio.error })
+          return
+        }
+
+        req.minio.get.contentLength &&
+          res.set('Content-Length', req.minio.get.contentLength)
+
+        res.download(req.minio.get.path)
+      }
+    )
+    request(app)
+      .get(`/api/files/non-existant-file`)
+      .expect(400)
+      .then(response => {
+        console.log(response.body)
+        expect(response.body).not.toBe(null)
+        expect(response.body.error).not.toBe(null)
+        expect(response.body.error.code).toBe('NotFound')
         done()
       })
   })
@@ -139,5 +197,50 @@ describe('MinioMiddleware', () => {
     request(app)
       .delete(`/api/files/${filenameInS3}`)
       .expect(200, done)
+  })
+
+  it('returns error when no operation is specified', done => {
+    const app = express()
+    app.get('/api/files', minioMiddleware(), (req, res) => {
+      if (req.minio.error) {
+        res.status(500).json({ error: req.minio.error })
+      } else {
+        res.send(req.minio.list)
+      }
+    })
+    request(app)
+      .get('/api/files')
+      .expect(500, done)
+  })
+
+  it('returns error when the operation is not supported', done => {
+    const app = express()
+    app.get('/api/files', minioMiddleware({ op: 10 }), (req, res) => {
+      if (req.minio.error) {
+        res.status(500).json({ error: req.minio.error })
+      } else {
+        res.send(req.minio.list)
+      }
+    })
+    request(app)
+      .get('/api/files')
+      .expect(500, done)
+  })
+})
+
+afterAll(async done => {
+  expressMinio.minioClient.listFiles(async (err, list) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+
+    console.log('list: ', list)
+
+    const promises = list.map(file =>
+      expressMinio.minioClient.deleteFile(file.name)
+    )
+    await Promise.all(promises)
+    done()
   })
 })

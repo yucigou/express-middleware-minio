@@ -136,12 +136,15 @@ module.exports = {
     })
   },
 
-  async deleteFile (fileName, callback) {
+  async deleteFile (fileName) {
     const uploads = MINIO_UPLOADS_FOLDER_NAME
     const objectName = `${uploads}/${fileName}`
     const minioClient = await getInstance()
-    minioClient.removeObject(MINIO_BUCKET, objectName, err => {
-      callback(err)
-    })
+    try {
+      await minioClient.removeObject(MINIO_BUCKET, objectName)
+    } catch (err) {
+      return err
+    }
+    return null
   }
 }

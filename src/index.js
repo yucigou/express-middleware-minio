@@ -154,15 +154,14 @@ const handleGetStream = async (req, next) => {
   })
 }
 
-const handleDelete = (req, next) => {
-  minioClient.deleteFile(req.params.filename, error => {
-    if (error) {
-      req.minio = { error }
-    } else {
-      req.minio = { delete: 'Success' }
-    }
-    next()
-  })
+const handleDelete = async (req, next) => {
+  const error = await minioClient.deleteFile(req.params.filename)
+  if (error) {
+    req.minio = { error }
+  } else {
+    req.minio = { delete: 'Success' }
+  }
+  next()
 }
 
 const handleRequests = (req, next, options) => {

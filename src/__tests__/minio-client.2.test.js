@@ -106,11 +106,9 @@ describe('MinioClient', () => {
     }
   })
 
-  it('delets a file', done => {
-    minioClient.deleteFile(newFileName, err => {
-      expect(err).toBe(null)
-      done()
-    })
+  it('delets a file', async () => {
+    const error = await minioClient.deleteFile(newFileName)
+    expect(error).toBe(null)
   })
 
   afterAll(async done => {
