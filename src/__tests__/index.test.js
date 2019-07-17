@@ -10,6 +10,7 @@ const minioMiddleware = expressMinio.middleware()
 
 const tempDir = (config && config.minioTmpDir) || '/tmp'
 const tmpFilePath = `${tempDir}/my-express-middleware-minio-index-test-file.txt`
+const tmpFilePath2 = `${tempDir}/my-express-middleware-minio-index-test-file2.txt`
 const testData = 'Test data'
 
 describe('MinioMiddleware', () => {
@@ -34,7 +35,6 @@ describe('MinioMiddleware', () => {
         if (req.minio.error) {
           res.status(400).json({ error: req.minio.error })
         } else {
-          filenameInS3 = req.minio.post.filename
           res.send(`${req.minio.post.filename}`)
         }
       }
@@ -58,7 +58,6 @@ describe('MinioMiddleware', () => {
         if (req.minio.error) {
           res.status(400).json({ error: req.minio.error })
         } else {
-          filenameInS3 = req.minio.post.filename
           res.send(`${req.minio.post.filename}`)
         }
       }
@@ -68,7 +67,59 @@ describe('MinioMiddleware', () => {
       .post('/api/upload')
       .expect(400)
       .then(response => {
-        console.log(response.body)
+        expect(response.body).not.toBe(null)
+        expect(response.body.error).toBe('No file attached to post')
+        done()
+      })
+  })
+
+  it('posts a file via stream', done => {
+    fs.writeFileSync(tmpFilePath2, testData)
+
+    const app = express()
+    app.post(
+      '/api/upload',
+      minioMiddleware({ op: expressMinio.Ops.postStream }),
+      (req, res) => {
+        if (req.minio.error) {
+          res.status(400).json({ error: req.minio.error })
+        } else {
+          filenameInS3 = req.minio.post.filename
+          res.send(`${req.minio.post.filename}`)
+        }
+      }
+    )
+
+    request(app)
+      .post('/api/upload')
+      .attach('file', tmpFilePath2)
+      .expect(200, res => {
+        fs.unlinkSync(tmpFilePath2)
+        done()
+      })
+  })
+
+  it('shows correct metadata.', async done => {
+    const app = express()
+    app.get(
+      '/api/files/:filename',
+      minioMiddleware({ op: expressMinio.Ops.get }),
+      async (req, res) => {
+        if (req.minio.error) {
+          res.status(400).json({ error: req.minio.error })
+          return
+        }
+
+        res.send(req.minio.get)
+      }
+    )
+    request(app)
+      .get(`/api/files/${filenameInS3}`)
+      .expect(200)
+      .then(response => {
+        expect(response.body).not.toBe(null)
+        expect(response.body.contentLength).toBe(testData.length)
+        expect(response.body.contentType).toBe('text/plain')
         done()
       })
   })
@@ -118,7 +169,6 @@ describe('MinioMiddleware', () => {
       .get(`/api/files/non-existant-file`)
       .expect(400)
       .then(response => {
-        console.log(response.body)
         expect(response.body).not.toBe(null)
         expect(response.body.error).not.toBe(null)
         expect(response.body.error.code).toBe('NotFound')
@@ -147,7 +197,6 @@ describe('MinioMiddleware', () => {
       .get(`/api/files/non-existant-file`)
       .expect(400)
       .then(response => {
-        console.log(response.body)
         expect(response.body).not.toBe(null)
         expect(response.body.error).not.toBe(null)
         expect(response.body.error.code).toBe('NotFound')
@@ -217,7 +266,6 @@ describe('MinioMiddleware', () => {
         }
       }
     )
-
     request(app)
       .delete(`/api/files/${filenameInS3}`)
       .expect(200, done)

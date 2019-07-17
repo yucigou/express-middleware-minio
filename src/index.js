@@ -2,13 +2,21 @@ require('dotenv').config()
 const formidable = require('formidable')
 const uuidv1 = require('uuid/v1')
 const config = require('config')
+const { PassThrough } = require('stream')
 
 const minioClient = require('./minio-client.js')
 const utils = require('./utils')
 
 const logger = (config && config.logger) || console
 
-const Ops = Object.freeze({ post: 1, list: 2, get: 3, getStream: 4, delete: 5 })
+const Ops = Object.freeze({
+  post: 1,
+  list: 2,
+  get: 3,
+  getStream: 4,
+  delete: 5,
+  postStream: 6
+})
 
 const extractFileExtension = filename => {
   return filename.split('.').pop()
@@ -57,7 +65,6 @@ const handlePost = (req, next, fields, files) => {
       filename += `.${extension}`
     }
   }
-
   minioClient.uploadFile(
     filename,
     (files.file && files.file.name) || '',
@@ -72,6 +79,29 @@ const handlePost = (req, next, fields, files) => {
       next()
     }
   )
+}
+
+const handlePostStream = async (req, next, files, fileStream) => {
+  let filename = uuidv1()
+  if (files.file && files.file.name) {
+    const extension = extractFileExtension(files.file.name)
+    if (extension) {
+      filename += `.${extension}`
+    }
+  }
+  try {
+    const etag = await minioClient.uploadFileSteam(
+      filename,
+      (files.file && files.file.name) || '',
+      (files.file && files.file.type) || '',
+      fileStream
+    )
+    req.minio = { post: { filename: `${filename}`, etag } }
+  } catch (error) {
+    console.log('error: ', error)
+    req.minio = { error }
+  }
+  next()
 }
 
 const handleList = (req, next) => {
@@ -90,7 +120,6 @@ const handleGet = async (req, next) => {
   try {
     stat = await minioClient.getFileStat(req.params.filename)
   } catch (error) {
-    logger.error('minio handleGet error: ', error)
     req.minio = { error }
     next()
     return
@@ -151,6 +180,11 @@ const handleGetStream = async (req, next) => {
 }
 
 const handleDelete = async (req, next) => {
+  if (!req.params.filename || req.params.filename === 'undefined') {
+    req.minio = { error: 'File name not specified' }
+    next()
+    return
+  }
   const error = await minioClient.deleteFile(req.params.filename)
   if (error) {
     req.minio = { error }
@@ -177,6 +211,32 @@ const handleRequests = (req, next, options) => {
         next()
       } else {
         handlePost(req, next, fields, files)
+      }
+    })
+  } else if (options.op === Ops.postStream) {
+    const form = new formidable.IncomingForm()
+    const pass = new PassThrough()
+    const files = { file: {} }
+    form.onPart = part => {
+      if (!part.filename) {
+        form.handlePart(part)
+        return
+      }
+      files.file.name = part.filename
+      files.file.type = part.mime
+      part.on('data', function (buffer) {
+        pass.write(buffer)
+      })
+      part.on('end', function () {
+        pass.end()
+      })
+    }
+    form.parse(req, err => {
+      if (err) {
+        req.minio = { error: err }
+        next()
+      } else {
+        handlePostStream(req, next, files, pass)
       }
     })
   } else if (options.op === Ops.list) {
