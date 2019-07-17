@@ -11,11 +11,7 @@ const logger = (config && config.logger) || console
 const Ops = Object.freeze({ post: 1, list: 2, get: 3, getStream: 4, delete: 5 })
 
 const extractFileExtension = filename => {
-  if (filename) {
-    return filename.split('.').pop()
-  }
-
-  return ''
+  return filename.split('.').pop()
 }
 
 const validityCheck = (req, options) => {
@@ -175,6 +171,9 @@ const handleRequests = (req, next, options) => {
     form.parse(req, (err, fields, files) => {
       if (err) {
         req.minio = { error: err }
+        next()
+      } else if (!files.file) {
+        req.minio = { error: 'No file attached to post' }
         next()
       } else {
         handlePost(req, next, fields, files)

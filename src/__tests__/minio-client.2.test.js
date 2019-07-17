@@ -114,7 +114,7 @@ describe('MinioClient', () => {
   afterAll(async done => {
     const coreClient = await minioClient.getInstance()
     coreClient.removeBucket(MINIO_BUCKET, err => {
-      console.log(err)
+      console.error(err)
       done()
     })
   })
@@ -123,6 +123,7 @@ describe('MinioClient', () => {
 describe('MinioClient', () => {
   it('listFiles calls back with an err when there is no bucket', done => {
     minioClient.listFiles(err => {
+      console.log('err: ', err)
       expect(err).not.toBe(null)
       expect(err.code).toBe('NoSuchBucket')
       done()

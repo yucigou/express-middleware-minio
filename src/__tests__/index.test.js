@@ -49,6 +49,30 @@ describe('MinioMiddleware', () => {
       })
   })
 
+  it('returns error when posts a file which is not present', done => {
+    const app = express()
+    app.post(
+      '/api/upload',
+      minioMiddleware({ op: expressMinio.Ops.post }),
+      (req, res) => {
+        if (req.minio.error) {
+          res.status(400).json({ error: req.minio.error })
+        } else {
+          filenameInS3 = req.minio.post.filename
+          res.send(`${req.minio.post.filename}`)
+        }
+      }
+    )
+
+    request(app)
+      .post('/api/upload')
+      .expect(400)
+      .then(response => {
+        console.log(response.body)
+        done()
+      })
+  })
+
   it('lists files', done => {
     const app = express()
     app.get(
@@ -229,16 +253,19 @@ describe('MinioMiddleware', () => {
 })
 
 afterAll(async done => {
+  const filePrefixRegex = new RegExp(
+    '^' + process.env.MINIO_UPLOADS_FOLDER_NAME + '/'
+  )
   expressMinio.minioClient.listFiles(async (err, list) => {
     if (err) {
       console.error(err)
       return
     }
 
-    console.log('list: ', list)
-
     const promises = list.map(file =>
-      expressMinio.minioClient.deleteFile(file.name)
+      expressMinio.minioClient.deleteFile(
+        file.name.replace(filePrefixRegex, '')
+      )
     )
     await Promise.all(promises)
     done()
