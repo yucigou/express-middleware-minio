@@ -26,6 +26,7 @@ const initBucket = async minioClient => {
         MINIO_BUCKET,
         process.env.MINIO_REGION || 'eu-west-2'
       )
+      console.log('Bucket creatd')
     } catch (err) {
       const errMsg = `initBucket - makeBucket: ${err}`
       logger.error(errMsg)

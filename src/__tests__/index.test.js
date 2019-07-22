@@ -5,6 +5,7 @@ const express = require('express')
 const config = require('config')
 const fs = require('fs')
 
+const { removeBucket } = require('./test-helper')
 const expressMinio = require('../index')
 const minioMiddleware = expressMinio.middleware()
 
@@ -301,21 +302,5 @@ describe('MinioMiddleware', () => {
 })
 
 afterAll(async done => {
-  const filePrefixRegex = new RegExp(
-    '^' + process.env.MINIO_UPLOADS_FOLDER_NAME + '/'
-  )
-  expressMinio.minioClient.listFiles(async (err, list) => {
-    if (err) {
-      console.error(err)
-      return
-    }
-
-    const promises = list.map(file =>
-      expressMinio.minioClient.deleteFile(
-        file.name.replace(filePrefixRegex, '')
-      )
-    )
-    await Promise.all(promises)
-    done()
-  })
+  removeBucket(done)
 })

@@ -1,10 +1,14 @@
 require('dotenv').config()
 const fs = require('fs')
 const config = require('config')
+const Minio = require('minio')
+const sinon = require('sinon')
+const Promise = require('bluebird').Promise
 const minioClient = require('../minio-client')
 
 const tempDir = (config && config.minioTmpDir) || '/tmp'
-const { MINIO_UPLOADS_FOLDER_NAME, MINIO_BUCKET } = process.env
+const { MINIO_UPLOADS_FOLDER_NAME } = process.env
+const { removeBucket } = require('./test-helper')
 
 describe('MinioClient', () => {
   const originalFileName = 'original-file-name'
@@ -111,12 +115,21 @@ describe('MinioClient', () => {
     expect(error).toBe(null)
   })
 
+  it('returns error when throwing an exception for deleting a file', async () => {
+    const removeObject = await sinon.stub(
+      Minio.Client.prototype,
+      'removeObject'
+    )
+    await removeObject.returns(
+      Promise.reject(new Error('Error deleting a file'))
+    )
+    const error = await minioClient.deleteFile(newFileName)
+    expect(error).not.toBe(null)
+    await removeObject.restore()
+  })
+
   afterAll(async done => {
-    const coreClient = await minioClient.getInstance()
-    coreClient.removeBucket(MINIO_BUCKET, err => {
-      console.error(err)
-      done()
-    })
+    removeBucket(done)
   })
 })
 
