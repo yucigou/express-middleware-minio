@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1563896744707" clover="3.2.0">
-  <project timestamp="1563896744707" name="All files">
-    <metrics statements="232" coveredstatements="210" conditionals="103" coveredconditionals="80" methods="39" coveredmethods="38" elements="374" coveredelements="328" complexity="0" loc="232" ncloc="232" packages="1" files="3" classes="3"/>
+<coverage generated="1563918083009" clover="3.2.0">
+  <project timestamp="1563918083009" name="All files">
+    <metrics statements="233" coveredstatements="212" conditionals="103" coveredconditionals="79" methods="39" coveredmethods="38" elements="375" coveredelements="329" complexity="0" loc="233" ncloc="233" packages="1" files="3" classes="3"/>
     <file name="index.js" path="/Users/ygou/projects/express-middleware-minio/src/index.js">
       <metrics statements="142" coveredstatements="123" conditionals="80" coveredconditionals="58" methods="23" coveredmethods="23"/>
-      <line num="1" count="2" type="stmt"/>
-      <line num="2" count="2" type="stmt"/>
-      <line num="3" count="2" type="stmt"/>
-      <line num="4" count="2" type="stmt"/>
-      <line num="5" count="2" type="stmt"/>
-      <line num="7" count="2" type="stmt"/>
-      <line num="8" count="2" type="stmt"/>
-      <line num="10" count="2" type="cond" truecount="3" falsecount="0"/>
-      <line num="12" count="2" type="stmt"/>
-      <line num="21" count="2" type="stmt"/>
+      <line num="1" count="3" type="stmt"/>
+      <line num="2" count="3" type="stmt"/>
+      <line num="3" count="3" type="stmt"/>
+      <line num="4" count="3" type="stmt"/>
+      <line num="5" count="3" type="stmt"/>
+      <line num="7" count="3" type="stmt"/>
+      <line num="8" count="3" type="stmt"/>
+      <line num="10" count="3" type="cond" truecount="3" falsecount="0"/>
+      <line num="12" count="3" type="stmt"/>
+      <line num="21" count="3" type="stmt"/>
       <line num="22" count="2" type="stmt"/>
-      <line num="25" count="2" type="stmt"/>
+      <line num="25" count="3" type="stmt"/>
       <line num="26" count="12" type="cond" truecount="2" falsecount="0"/>
       <line num="27" count="1" type="stmt"/>
       <line num="28" count="1" type="stmt"/>
@@ -29,11 +29,11 @@
       <line num="41" count="1" type="stmt"/>
       <line num="42" count="1" type="stmt"/>
       <line num="45" count="10" type="stmt"/>
-      <line num="48" count="2" type="stmt"/>
+      <line num="48" count="3" type="stmt"/>
       <line num="49" count="3" type="cond" truecount="3" falsecount="1"/>
       <line num="50" count="3" type="stmt"/>
       <line num="57" count="0" type="stmt"/>
-      <line num="60" count="2" type="stmt"/>
+      <line num="60" count="3" type="stmt"/>
       <line num="61" count="1" type="stmt"/>
       <line num="62" count="1" type="cond" truecount="3" falsecount="1"/>
       <line num="63" count="1" type="stmt"/>
@@ -44,7 +44,7 @@
       <line num="75" count="0" type="stmt"/>
       <line num="77" count="1" type="stmt"/>
       <line num="79" count="1" type="stmt"/>
-      <line num="84" count="2" type="stmt"/>
+      <line num="84" count="3" type="stmt"/>
       <line num="85" count="1" type="stmt"/>
       <line num="86" count="1" type="cond" truecount="3" falsecount="1"/>
       <line num="87" count="1" type="stmt"/>
@@ -56,13 +56,13 @@
       <line num="101" count="0" type="stmt"/>
       <line num="102" count="0" type="stmt"/>
       <line num="104" count="1" type="stmt"/>
-      <line num="107" count="2" type="stmt"/>
+      <line num="107" count="3" type="stmt"/>
       <line num="108" count="1" type="stmt"/>
       <line num="109" count="1" type="cond" truecount="1" falsecount="1"/>
       <line num="110" count="0" type="stmt"/>
       <line num="112" count="1" type="stmt"/>
       <line num="114" count="1" type="stmt"/>
-      <line num="118" count="2" type="stmt"/>
+      <line num="118" count="3" type="stmt"/>
       <line num="120" count="3" type="stmt"/>
       <line num="121" count="3" type="stmt"/>
       <line num="123" count="1" type="stmt"/>
@@ -77,7 +77,7 @@
       <line num="135" count="0" type="stmt"/>
       <line num="137" count="2" type="stmt"/>
       <line num="146" count="2" type="stmt"/>
-      <line num="150" count="2" type="stmt"/>
+      <line num="150" count="3" type="stmt"/>
       <line num="152" count="2" type="stmt"/>
       <line num="153" count="2" type="stmt"/>
       <line num="155" count="1" type="stmt"/>
@@ -92,7 +92,7 @@
       <line num="167" count="0" type="stmt"/>
       <line num="169" count="1" type="stmt"/>
       <line num="178" count="1" type="stmt"/>
-      <line num="182" count="2" type="stmt"/>
+      <line num="182" count="3" type="stmt"/>
       <line num="183" count="1" type="cond" truecount="3" falsecount="1"/>
       <line num="184" count="0" type="stmt"/>
       <line num="185" count="0" type="stmt"/>
@@ -102,7 +102,7 @@
       <line num="190" count="0" type="stmt"/>
       <line num="192" count="1" type="stmt"/>
       <line num="194" count="1" type="stmt"/>
-      <line num="197" count="2" type="stmt"/>
+      <line num="197" count="3" type="stmt"/>
       <line num="198" count="12" type="cond" truecount="2" falsecount="0"/>
       <line num="199" count="2" type="stmt"/>
       <line num="200" count="2" type="stmt"/>
@@ -143,16 +143,17 @@
       <line num="247" count="2" type="stmt"/>
       <line num="248" count="1" type="cond" truecount="1" falsecount="1"/>
       <line num="249" count="1" type="stmt"/>
-      <line num="253" count="2" type="stmt"/>
+      <line num="253" count="3" type="stmt"/>
       <line num="258" count="12" type="stmt"/>
       <line num="259" count="12" type="stmt"/>
     </file>
     <file name="minio-client.js" path="/Users/ygou/projects/express-middleware-minio/src/minio-client.js">
-      <metrics statements="74" coveredstatements="71" conditionals="13" coveredconditionals="13" methods="14" coveredmethods="13"/>
+      <metrics statements="75" coveredstatements="73" conditionals="13" coveredconditionals="12" methods="14" coveredmethods="13"/>
       <line num="1" count="5" type="stmt"/>
       <line num="2" count="5" type="stmt"/>
       <line num="4" count="5" type="cond" truecount="3" falsecount="0"/>
       <line num="5" count="5" type="stmt"/>
+      <line num="6" count="5" type="stmt"/>
       <line num="9" count="5" type="stmt"/>
       <line num="10" count="5" type="stmt"/>
       <line num="13" count="5" type="stmt"/>
@@ -160,15 +161,15 @@
       <line num="16" count="1" type="stmt"/>
       <line num="17" count="1" type="stmt"/>
       <line num="18" count="1" type="stmt"/>
-      <line num="21" count="4" type="cond" truecount="2" falsecount="0"/>
-      <line num="22" count="3" type="stmt"/>
-      <line num="24" count="1" type="stmt"/>
-      <line num="25" count="1" type="stmt"/>
-      <line num="29" count="0" type="stmt"/>
+      <line num="21" count="4" type="cond" truecount="1" falsecount="1"/>
+      <line num="22" count="0" type="stmt"/>
+      <line num="24" count="4" type="stmt"/>
+      <line num="25" count="4" type="stmt"/>
+      <line num="29" count="3" type="stmt"/>
       <line num="31" count="1" type="stmt"/>
       <line num="32" count="1" type="stmt"/>
       <line num="33" count="1" type="stmt"/>
-      <line num="35" count="0" type="stmt"/>
+      <line num="35" count="3" type="stmt"/>
       <line num="38" count="3" type="stmt"/>
       <line num="41" count="5" type="stmt"/>
       <line num="42" count="28" type="cond" truecount="2" falsecount="0"/>
@@ -189,17 +190,17 @@
       <line num="85" count="2" type="stmt"/>
       <line num="90" count="2" type="stmt"/>
       <line num="91" count="2" type="stmt"/>
-      <line num="95" count="5" type="stmt"/>
-      <line num="96" count="5" type="stmt"/>
-      <line num="98" count="5" type="stmt"/>
-      <line num="99" count="5" type="stmt"/>
-      <line num="100" count="5" type="stmt"/>
-      <line num="101" count="5" type="stmt"/>
-      <line num="102" count="4" type="stmt"/>
-      <line num="104" count="5" type="stmt"/>
+      <line num="95" count="6" type="stmt"/>
+      <line num="96" count="6" type="stmt"/>
+      <line num="98" count="6" type="stmt"/>
+      <line num="99" count="6" type="stmt"/>
+      <line num="100" count="6" type="stmt"/>
+      <line num="101" count="6" type="stmt"/>
+      <line num="102" count="3" type="stmt"/>
+      <line num="104" count="6" type="stmt"/>
       <line num="105" count="0" type="stmt"/>
-      <line num="107" count="5" type="stmt"/>
-      <line num="108" count="5" type="stmt"/>
+      <line num="107" count="6" type="stmt"/>
+      <line num="108" count="3" type="stmt"/>
       <line num="113" count="3" type="stmt"/>
       <line num="114" count="3" type="stmt"/>
       <line num="115" count="3" type="stmt"/>
@@ -216,23 +217,23 @@
       <line num="132" count="7" type="cond" truecount="2" falsecount="0"/>
       <line num="133" count="3" type="stmt"/>
       <line num="135" count="4" type="stmt"/>
-      <line num="141" count="4" type="stmt"/>
-      <line num="142" count="4" type="stmt"/>
-      <line num="143" count="4" type="stmt"/>
-      <line num="144" count="4" type="stmt"/>
-      <line num="145" count="4" type="stmt"/>
+      <line num="141" count="3" type="stmt"/>
+      <line num="142" count="3" type="stmt"/>
+      <line num="143" count="3" type="stmt"/>
+      <line num="144" count="3" type="stmt"/>
+      <line num="145" count="3" type="stmt"/>
       <line num="147" count="1" type="stmt"/>
-      <line num="149" count="3" type="stmt"/>
+      <line num="149" count="2" type="stmt"/>
     </file>
     <file name="utils.js" path="/Users/ygou/projects/express-middleware-minio/src/utils.js">
       <metrics statements="16" coveredstatements="16" conditionals="10" coveredconditionals="9" methods="2" coveredmethods="2"/>
-      <line num="1" count="3" type="stmt"/>
-      <line num="2" count="3" type="stmt"/>
-      <line num="3" count="3" type="stmt"/>
-      <line num="5" count="3" type="cond" truecount="3" falsecount="0"/>
-      <line num="6" count="3" type="cond" truecount="2" falsecount="1"/>
-      <line num="8" count="3" type="stmt"/>
-      <line num="10" count="3" type="stmt"/>
+      <line num="1" count="4" type="stmt"/>
+      <line num="2" count="4" type="stmt"/>
+      <line num="3" count="4" type="stmt"/>
+      <line num="5" count="4" type="cond" truecount="3" falsecount="0"/>
+      <line num="6" count="4" type="cond" truecount="2" falsecount="1"/>
+      <line num="8" count="4" type="stmt"/>
+      <line num="10" count="4" type="stmt"/>
       <line num="11" count="3" type="stmt"/>
       <line num="12" count="3" type="cond" truecount="4" falsecount="0"/>
       <line num="13" count="1" type="stmt"/>
@@ -241,7 +242,7 @@
       <line num="18" count="2" type="stmt"/>
       <line num="19" count="2" type="stmt"/>
       <line num="21" count="1" type="stmt"/>
-      <line num="25" count="3" type="stmt"/>
+      <line num="25" count="4" type="stmt"/>
     </file>
   </project>
 </coverage>

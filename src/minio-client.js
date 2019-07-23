@@ -3,7 +3,7 @@ const config = require('config')
 
 const logger = (config && config.logger) || console
 const { MINIO_UPLOADS_FOLDER_NAME, MINIO_BUCKET } = process.env
-
+console.log('bucket:: ', MINIO_BUCKET)
 let minioClient
 
 const initBucket = async minioClient => {

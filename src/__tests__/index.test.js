@@ -1,13 +1,25 @@
 'use strict'
+require('dotenv').config()
+
+const uuidv1 = require('uuid/v1')
+process.env.MINIO_BUCKET = uuidv1()
 
 const request = require('supertest')
 const express = require('express')
 const config = require('config')
 const fs = require('fs')
 
-const { clearBucket } = require('./test-helper')
-const expressMinio = require('../index')
-const minioMiddleware = expressMinio.middleware()
+const { removeBucket } = require('./test-helper')
+
+let expressMinio, minioMiddleware
+beforeAll(() => {
+  expressMinio = require('../index')
+  minioMiddleware = expressMinio.middleware()
+})
+
+afterAll(() => {
+  removeBucket(() => {})
+})
 
 const tempDir = (config && config.minioTmpDir) || '/tmp'
 const tmpFilePath = `${tempDir}/my-express-middleware-minio-index-test-file.txt`
@@ -302,9 +314,5 @@ describe('MinioMiddleware', () => {
     request(app)
       .get('/api/files')
       .expect(500, done)
-  })
-
-  afterAll(async done => {
-    clearBucket(done)
   })
 })

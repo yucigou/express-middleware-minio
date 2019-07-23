@@ -21,7 +21,7 @@ const clearBucket = async done => {
   })
 }
 
-const removeBucket = (bucket, folder, done) => {
+const removeBucket = done => {
   clearBucket(async () => {
     const coreClient = await expressMinio.minioClient.getInstance()
     coreClient.removeBucket(process.env.MINIO_BUCKET, err => {

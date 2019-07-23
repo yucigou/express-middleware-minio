@@ -1,14 +1,26 @@
 require('dotenv').config()
+
+const uuidv1 = require('uuid/v1')
+process.env.MINIO_BUCKET = uuidv1()
+
 const fs = require('fs')
 const config = require('config')
 const Minio = require('minio')
 const sinon = require('sinon')
 const Promise = require('bluebird').Promise
-const minioClient = require('../minio-client')
 
 const tempDir = (config && config.minioTmpDir) || '/tmp'
 const { MINIO_UPLOADS_FOLDER_NAME } = process.env
-const { clearBucket } = require('./test-helper')
+const { removeBucket } = require('./test-helper')
+
+let minioClient
+beforeAll(() => {
+  minioClient = require('../minio-client')
+})
+
+afterAll(() => {
+  removeBucket(() => {})
+})
 
 describe('MinioClient', () => {
   const originalFileName = 'original-file-name'
@@ -129,9 +141,5 @@ describe('MinioClient', () => {
     )
     const error = await minioClient.deleteFile(newFileName)
     expect(error).not.toBe(null)
-  })
-
-  afterAll(done => {
-    clearBucket(done)
   })
 })
