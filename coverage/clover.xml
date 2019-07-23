@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1563918083009" clover="3.2.0">
-  <project timestamp="1563918083009" name="All files">
+<coverage generated="1563923368255" clover="3.2.0">
+  <project timestamp="1563923368255" name="All files">
     <metrics statements="233" coveredstatements="212" conditionals="103" coveredconditionals="79" methods="39" coveredmethods="38" elements="375" coveredelements="329" complexity="0" loc="233" ncloc="233" packages="1" files="3" classes="3"/>
     <file name="index.js" path="/Users/ygou/projects/express-middleware-minio/src/index.js">
       <metrics statements="142" coveredstatements="123" conditionals="80" coveredconditionals="58" methods="23" coveredmethods="23"/>

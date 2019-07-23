@@ -1,0 +1,124 @@
+<html><head><meta charset="utf-8"/><title>Test Report</title><style type="text/css">html, body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1rem;
+	margin: 0;
+	padding: 0;
+	color: #333;
+}
+body {
+	padding: 1rem;
+	font-size: 0.85rem;
+}
+header {
+	display: flex;
+	align-items: center;
+}
+#title {
+	margin: 0;
+	flex-grow: 1;
+}
+#logo {
+	height: 4rem;
+}
+#timestamp {
+	font-weight: bold;
+	color: #666;
+	margin-bottom: 0.5rem;
+}
+#summary {
+	color: #999;
+	margin-bottom: 1rem;
+}
+.suite-info {
+	padding: 1rem;
+	background-color: #eee;
+	border-bottom: 2px solid #999;
+	color: #999;
+	display: flex;
+	align-items: center;
+}
+.suite-info .suite-path {
+	font-weight: bold;
+	word-break: break-all;
+	flex-grow: 1;
+}
+.suite-info .suite-time {
+	margin-left: 0.5rem;
+	padding: 0.2rem 0.3rem;
+	font-size: 0.75rem;
+}
+.suite-info .suite-time.warn {
+	background-color: #D8000C;
+	color: #fff;
+}
+.suite-table {
+	width: 100%;
+	font-size: 0.85rem;
+	margin-bottom: 1em;
+}
+.suite-table td {
+	padding: 0.5rem;
+}
+.suite-table tr.passed {
+	background-color: #DFF2BF;
+	color: #4F8A10;
+}
+.suite-table tr.pending {
+	background-color: #FEEFB3;
+	color: #9F6000;
+}
+.suite-table tr.failed {
+	background-color: #FFBABA;
+	color: #D8000C;
+}
+.suite-table td {
+	font-size: 0.85rem;
+	border-bottom: 1px solid #aaa;
+	vertical-align: top;
+}
+.suite-table td.suite {
+	font-weight: bold;
+	width: 20%;
+}
+.suite-table td.test {
+	font-style: italic;
+	width: 60%;
+}
+.suite-table td.test .failureMsg {
+	font-size: 1rem;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+}
+.suite-table td.result {
+	width: 20%;
+	text-align: right;
+}
+
+/* CONSOLE LOGS */
+.suite-consolelog {
+	margin-bottom: 2rem;
+	padding: 1rem;
+	background-color: #efefef;
+}
+.suite-consolelog-header {
+	font-weight: bold;
+}
+.suite-consolelog-item {
+	padding: 0.5rem;
+}
+.suite-consolelog-item pre {
+	margin: 0;
+}
+.suite-consolelog-item-origin {
+	color: #777;
+	font-weight: bold;
+}
+.suite-consolelog-item-message {
+	color: #000;
+	font-size: 1rem;
+	padding: 0 0.5rem;
+}
+</style></head><body><div id="jesthtml-content"><header><h1 id="title">Test Report</h1></header><div id="metadata-container"><div id="timestamp">Start: 2019-07-24 00:09:24</div><div id="summary">30 tests -- 30 passed / 0 failed / 0 pending</div></div><div class="suite-info"><div class="suite-path">/Users/ygou/projects/express-middleware-minio/src/__tests__/minio-client.3.test.js</div><div class="suite-time">1.02s</div></div><table class="suite-table" cellspacing="0" cellpadding="0"><tr class="passed"><td class="suite">MinioClient</td><td class="test">can get inner client instance, which creates a bucket</td><td class="result">passed in 0.079s</td></tr></table><div class="suite-info"><div class="suite-path">/Users/ygou/projects/express-middleware-minio/src/__tests__/minio-client.2.test.js</div><div class="suite-time">1.394s</div></div><table class="suite-table" cellspacing="0" cellpadding="0"><tr class="passed"><td class="suite">MinioClient</td><td class="test">ensures a given bucket is created</td><td class="result">passed in 0.095s</td></tr><tr class="passed"><td class="suite">MinioClient</td><td class="test">uploads a file</td><td class="result">passed in 0.014s</td></tr><tr class="passed"><td class="suite">MinioClient</td><td class="test">downloads a file</td><td class="result">passed in 0.031s</td></tr><tr class="passed"><td class="suite">MinioClient</td><td class="test">lists files with certain prefix in the S3 bucket</td><td class="result">passed in 0.011s</td></tr><tr class="passed"><td class="suite">MinioClient</td><td class="test">downloads a file as a stream</td><td class="result">passed in 0.009s</td></tr><tr class="passed"><td class="suite">MinioClient</td><td class="test">uploads a file from a stream</td><td class="result">passed in 0.021s</td></tr><tr class="passed"><td class="suite">MinioClient</td><td class="test">gets the stats of a file</td><td class="result">passed in 0.008s</td></tr><tr class="passed"><td class="suite">MinioClient</td><td class="test">rejects promise when getting the stats of a non-existing file</td><td class="result">passed in 0.007s</td></tr><tr class="passed"><td class="suite">MinioClient</td><td class="test">delets a file</td><td class="result">passed in 0.009s</td></tr><tr class="passed"><td class="suite">MinioClient</td><td class="test">returns error when throwing an exception for deleting a file</td><td class="result">passed in 0.006s</td></tr></table><div class="suite-info"><div class="suite-path">/Users/ygou/projects/express-middleware-minio/src/__tests__/index.test.js</div><div class="suite-time">1.625s</div></div><table class="suite-table" cellspacing="0" cellpadding="0"><tr class="passed"><td class="suite">MinioMiddleware</td><td class="test">Operations cannot be changed</td><td class="result">passed in 0.015s</td></tr><tr class="passed"><td class="suite">MinioMiddleware</td><td class="test">posts a file</td><td class="result">passed in 0.174s</td></tr><tr class="passed"><td class="suite">MinioMiddleware</td><td class="test">returns error when posts a file which is not present</td><td class="result">passed in 0.016s</td></tr><tr class="passed"><td class="suite">MinioMiddleware</td><td class="test">posts a file via stream</td><td class="result">passed in 0.028s</td></tr><tr class="passed"><td class="suite">MinioMiddleware</td><td class="test">shows correct metadata.</td><td class="result">passed in 0.029s</td></tr><tr class="passed"><td class="suite">MinioMiddleware</td><td class="test">lists files</td><td class="result">passed in 0.016s</td></tr><tr class="passed"><td class="suite">MinioMiddleware</td><td class="test">returns error if a file to get does not exist</td><td class="result">passed in 0.011s</td></tr><tr class="passed"><td class="suite">MinioMiddleware</td><td class="test">returns error if a file to get as stream does not exist</td><td class="result">passed in 0.016s</td></tr><tr class="passed"><td class="suite">MinioMiddleware</td><td class="test">gets a file</td><td class="result">passed in 0.031s</td></tr><tr class="passed"><td class="suite">MinioMiddleware</td><td class="test">gets a file as stream</td><td class="result">passed in 0.021s</td></tr><tr class="passed"><td class="suite">MinioMiddleware</td><td class="test">deletes a file</td><td class="result">passed in 0.032s</td></tr><tr class="passed"><td class="suite">MinioMiddleware</td><td class="test">returns error when no operation is specified</td><td class="result">passed in 0.003s</td></tr><tr class="passed"><td class="suite">MinioMiddleware</td><td class="test">returns error when the operation is not supported</td><td class="result">passed in 0.002s</td></tr></table><div class="suite-info"><div class="suite-path">/Users/ygou/projects/express-middleware-minio/src/__tests__/minio-client.1.test.js</div><div class="suite-time">0.273s</div></div><table class="suite-table" cellspacing="0" cellpadding="0"><tr class="passed"><td class="suite">MinioClient</td><td class="test">fails to get client instance with an invalid connection port.</td><td class="result">passed in 0.044s</td></tr></table><div class="suite-info"><div class="suite-path">/Users/ygou/projects/express-middleware-minio/src/__tests__/minio-client.4.test.js</div><div class="suite-time">0.656s</div></div><table class="suite-table" cellspacing="0" cellpadding="0"><tr class="passed"><td class="suite">MinioClient</td><td class="test">should fail to get Minio client instance when being unable to create a bucket</td><td class="result">passed in 0.15s</td></tr></table><div class="suite-info"><div class="suite-path">/Users/ygou/projects/express-middleware-minio/src/__tests__/utils.test.js</div><div class="suite-time">0.175s</div></div><table class="suite-table" cellspacing="0" cellpadding="0"><tr class="passed"><td class="suite">utils.getTempPath(filename)</td><td class="test">returns a file name with dot UUID as its suffix from the tempDir directory</td><td class="result">passed in 0.001s</td></tr><tr class="passed"><td class="suite">utils.removeFile(fileFullPath)</td><td class="test">removes a given file in the tempDir directory</td><td class="result">passed in 0.001s</td></tr><tr class="passed"><td class="suite">utils.removeFile(fileFullPath)</td><td class="test">throws error if the given file is not in the tempDir directory</td><td class="result">passed in 0.003s</td></tr><tr class="passed"><td class="suite">utils.removeFile(fileFullPath)</td><td class="test">does not throw error if the given file is in the tempDir directory</td><td class="result">passed in 0s</td></tr></table></div></body></html>
