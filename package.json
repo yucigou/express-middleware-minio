@@ -9,7 +9,7 @@
   ],
   "main": "src/index.js",
   "scripts": {
-    "test": "jest --coverage --testPathIgnorePatterns src/__tests__/test-helper.js config/test.js",
+    "test": "jest --watchAll --coverage --config=./jest.config.js --runInBand",
     "lint": "eslint --fix ."
   },
   "author": "Yuci Gou <ygou@ebi.ac.uk>",
