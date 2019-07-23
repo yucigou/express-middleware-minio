@@ -144,6 +144,8 @@ To run the tests against S3, you will need to spin up a Minio S3 service, or aga
 npm test
 ```
 
+You can find the test report [here](https://europepmc.github.io/express-middleware-minio/test-report.html), as well as the test coverage report [here](https://europepmc.github.io/express-middleware-minio/coverage/index.html)
+
 ### Temporary directory (optional and deprecated)
 
 Currently when retrieving a file from Minio via operation get (see above), we download and save it in the local filesystem, and then return it to the client.
