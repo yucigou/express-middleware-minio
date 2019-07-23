@@ -97,7 +97,6 @@ describe('MinioMiddleware', () => {
         if (req.minio.error) {
           res.status(400).json({ error: req.minio.error })
         } else {
-          console.log('filenameInS3 created: ', filenameInS3)
           filenameInS3 = req.minio.post.filename
           res.send(`${req.minio.post.filename}`)
         }
@@ -252,7 +251,6 @@ describe('MinioMiddleware', () => {
       minioMiddleware({ op: expressMinio.Ops.getStream }),
       async (req, res) => {
         if (req.minio.error) {
-          console.log('req.minio.error: ', req.minio.error)
           res.status(400).json({ error: req.minio.error })
           return
         }
