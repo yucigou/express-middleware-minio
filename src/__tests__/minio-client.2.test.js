@@ -8,7 +8,7 @@ const minioClient = require('../minio-client')
 
 const tempDir = (config && config.minioTmpDir) || '/tmp'
 const { MINIO_UPLOADS_FOLDER_NAME } = process.env
-const { removeBucket } = require('./test-helper')
+const { clearBucket } = require('./test-helper')
 
 describe('MinioClient', () => {
   const originalFileName = 'original-file-name'
@@ -16,6 +16,10 @@ describe('MinioClient', () => {
   const tmpFilePath = `${tempDir}/my-express-middleware-minio-utils-test-file.txt`
   const fileType = 'text/plain'
   const testData = 'Test data'
+
+  afterEach(() => {
+    sinon.restore()
+  })
 
   it('ensures a given bucket is created', done => {
     expect.hasAssertions()
@@ -125,21 +129,9 @@ describe('MinioClient', () => {
     )
     const error = await minioClient.deleteFile(newFileName)
     expect(error).not.toBe(null)
-    await removeObject.restore()
   })
 
-  afterAll(async done => {
-    removeBucket(done)
-  })
-})
-
-describe('MinioClient', () => {
-  it('listFiles calls back with an err when there is no bucket', done => {
-    minioClient.listFiles(err => {
-      console.log('err: ', err)
-      expect(err).not.toBe(null)
-      expect(err.code).toBe('NoSuchBucket')
-      done()
-    })
+  afterAll(done => {
+    clearBucket(done)
   })
 })

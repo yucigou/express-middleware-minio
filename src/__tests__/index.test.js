@@ -5,7 +5,7 @@ const express = require('express')
 const config = require('config')
 const fs = require('fs')
 
-const { removeBucket } = require('./test-helper')
+const { clearBucket } = require('./test-helper')
 const expressMinio = require('../index')
 const minioMiddleware = expressMinio.middleware()
 
@@ -85,6 +85,7 @@ describe('MinioMiddleware', () => {
         if (req.minio.error) {
           res.status(400).json({ error: req.minio.error })
         } else {
+          console.log('filenameInS3 created: ', filenameInS3)
           filenameInS3 = req.minio.post.filename
           res.send(`${req.minio.post.filename}`)
         }
@@ -239,6 +240,7 @@ describe('MinioMiddleware', () => {
       minioMiddleware({ op: expressMinio.Ops.getStream }),
       async (req, res) => {
         if (req.minio.error) {
+          console.log('req.minio.error: ', req.minio.error)
           res.status(400).json({ error: req.minio.error })
           return
         }
@@ -249,6 +251,7 @@ describe('MinioMiddleware', () => {
         req.minio.get.stream.pipe(res)
       }
     )
+    console.log('filenameInS3: ', filenameInS3)
     request(app)
       .get(`/api/files/${filenameInS3}`)
       .expect(200, done)
@@ -261,6 +264,7 @@ describe('MinioMiddleware', () => {
       minioMiddleware({ op: expressMinio.Ops.delete }),
       (req, res) => {
         if (req.minio.error) {
+          console.log('Deleting error: ', req.minio.error)
           res.status(400).json({ error: req.minio.error })
         } else {
           res.send(req.minio.delete)
@@ -299,8 +303,8 @@ describe('MinioMiddleware', () => {
       .get('/api/files')
       .expect(500, done)
   })
-})
 
-afterAll(async done => {
-  removeBucket(done)
+  afterAll(async done => {
+    clearBucket(done)
+  })
 })

@@ -1,6 +1,6 @@
 const expressMinio = require('../index')
 
-const removeBucket = async done => {
+const clearBucket = async done => {
   const filePrefixRegex = new RegExp(
     '^' + process.env.MINIO_UPLOADS_FOLDER_NAME + '/'
   )
@@ -17,6 +17,12 @@ const removeBucket = async done => {
     )
     await Promise.all(promises)
 
+    done()
+  })
+}
+
+const removeBucket = (bucket, folder, done) => {
+  clearBucket(async () => {
     const coreClient = await expressMinio.minioClient.getInstance()
     coreClient.removeBucket(process.env.MINIO_BUCKET, err => {
       if (err) {
@@ -28,5 +34,6 @@ const removeBucket = async done => {
 }
 
 module.exports = {
+  clearBucket,
   removeBucket
 }
