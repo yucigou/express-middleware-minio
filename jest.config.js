@@ -1,5 +1,6 @@
 module.exports = {
-  modulePathIgnorePatterns: [
+  testPathIgnorePatterns: [
+    '<rootDir>/node_modules/',
     '<rootDir>/config/',
     '<rootDir>/src/__tests__/test-helper.js'
   ],
