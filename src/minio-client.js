@@ -123,11 +123,11 @@ module.exports = {
     minioClient.getObject(MINIO_BUCKET, objectName, callback)
   },
 
-  getFileStat (filename) {
-    return new Promise(async (resolve, reject) => {
+  async getFileStat (filename) {
+    const minioClient = await getInstance()
+    return new Promise((resolve, reject) => {
       const uploads = MINIO_UPLOADS_FOLDER_NAME
       const objectName = `${uploads}/${filename}`
-      const minioClient = await getInstance()
       minioClient.statObject(MINIO_BUCKET, objectName, (err, stat) => {
         if (err) {
           return reject(err)

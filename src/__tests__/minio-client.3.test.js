@@ -18,7 +18,7 @@ describe('MinioClient', () => {
   it('can get inner client instance, which creates a bucket', async done => {
     const instance = await minioClient.getInstance()
     expect(instance).not.toBe(null)
-    let exists = await instance.bucketExists(process.env.MINIO_BUCKET)
+    const exists = await instance.bucketExists(process.env.MINIO_BUCKET)
     expect(exists).toBe(true)
     done()
   })
