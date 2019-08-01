@@ -1,6 +1,6 @@
 {
   "name": "@europepmc/express-middleware-minio",
-  "version": "3.2.4",
+  "version": "3.2.5",
   "description": "An Express middleware that helps you store files in Minio.",
   "keywords": [
     "express",
